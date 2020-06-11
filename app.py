@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, request, session, redirect, url_for, render_template, flash
+from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 
 app= Flask(__name__)
-
+app.secret_key = "hello"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///DATABASE.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.permanent_session_lifetime = timedelta(minutes=0)
 db = SQLAlchemy(app)
 
 if __name__ == "__main__":

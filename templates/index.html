@@ -1,6 +1,13 @@
 {% extends   "base.html" %}
 {% block title%}Home Page{% endblock %}
 {% block content  %}
-<h1>Halaman WEFOLEARN</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages  %}
+            {% for message in messages%}
+                {{message}}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <h1>Halaman WEFOLEARN</h1>
 {% endblock  %}
 

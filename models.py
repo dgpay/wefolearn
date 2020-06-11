@@ -5,7 +5,7 @@ class mahasiswa(db.Model):
     id_Mahasiswa = db.Column(db.String, primary_key=True)
     firstname = db.Column(db.String(50))
     lastname = db.Column(db.String(50))
-    username = db.Column(db.String(50), unique=True, index=True)
+    kelas = db.Column(db.String(10))
     password = db.Column(db.String(50))
     email = db.Column(db.String(50), unique=True, index=True)
 
@@ -13,8 +13,7 @@ class Dos_Asis(db.Model): #ini dosen dan asisten
 
     id_DosAsis = db.Column(db.String, primary_key=True)
     firstname = db.Column(db.String(50))
-    lastname = db.Column(db.String(50))
-    username = db.Column(db.String(50), unique=True, index=True)
+    lastname = db.Column(db.String(50)) 
     password = db.Column(db.String(50))
     email = db.Column(db.String(50), unique=True, index=True)
 
