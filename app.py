@@ -6,7 +6,7 @@ app= Flask(__name__)
 app.secret_key = "hello"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///DATABASE.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.permanent_session_lifetime = timedelta(minutes=0)
+app.permanent_session_lifetime = timedelta(minutes=1)
 db = SQLAlchemy(app)
 
 if __name__ == "__main__":
