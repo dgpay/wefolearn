@@ -1,0 +1,7 @@
+{% extends   "base.html" %}
+{% block title%}User{% endblock %}
+{% block content  %}
+    {% for item in values %}
+        <P> id_Mahasiswa :{{item.id_Mahasiswa}},firstname :{{item.firstname}},lastname :{{item.lastname}} ,Kelas : {{item.Kelas}}</p>
+    {% endfor %}
+{% endblock  %}

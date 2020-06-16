@@ -58,57 +58,106 @@ def register():
 @app.route("/login",methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        session.permanent = True
+        
         if request.form["id_mahasiswa"]!='' and request.form["password"]!='' :
+            
             idM = request.form["id_mahasiswa"]
-            session["idM"]=idM
             passw = request.form["password"]
-            session["passw"]=passw
+            
 
             found_user = mahasiswa.query.filter_by(id_Mahasiswa=idM, password=passw).first()
             if found_user is not None:
+                session["idM"]=idM
+                session["passw"]=passw
                 flash("LOgin Succsessfull!!")
                 return redirect(url_for("mhs"))
         
-        elif request.form["id_dosAsis"]!='' and request.form["password_AS"]!='' :
+        if request.form["id_dosAsis"]!='' and request.form["password_AS"]!='' :
+            
             idAS = request.form["id_dosAsis"]
-            session["idAS"]=idAS
+            
             passwAS = request.form["password_AS"]
-            session["passw"]=passwAS
+            
 
             found_user = Dos_Asis.query.filter_by(id_DosAsis=idAS, password=passwAS).first()
             if found_user is not None:
+                session["idAS"]=idAS
+                session["passwAS"]=passwAS
                 flash("LOgin Succsessfull!!")
-                return redirect(url_for("mhs"))
+                return redirect(url_for("dosAs"))
+            else:
+                flash("dosen asdos tidak ditemukan!!")
+                return redirect(url_for("login"))
+           
+
         else:
             flash("Ada kesalahan dalam pengisian form!!")
             return redirect(url_for("login"))
     else:
         if "idM" and "passw" in session:
-            flash("already login!")
+            flash("already login Mahasiswa!")
             return redirect(url_for("mhs"))
         elif "idAS" and "passwAS" in session:
-            flash("already login!")
+            flash("already login Dosen Asisten!")
             return redirect(url_for("dosAs"))
         return render_template("login.html")  
 
+
+
+# @app.route("/logout")
+# def logout():
+#     if "idM" and "passw" in session:
+#         flash("you have been logout mhs")
+#         session.pop("idM", None)
+#         session.pop("passw", None)
+#         return render_template('logout.html') 
+        
+#     elif "idAS" and "passwAS" in session:
+#         flash("you have been logout dosen")
+        
+#         session.pop("passAW", None)
+#         session.pop("idAS", None)
+#         return render_template('logout.html') 
+#     else:  
+#         flash("BELUM LOGIN JUGA")
+#         return redirect(url_for("login"))
+    
+    
+    
+     
+@app.route("/logout")
+def logout():
+    flash("you have been logout ","info")
+    session.pop("idM", None)
+    session.pop("passw", None)
+        
+    session.pop("idAS", None)
+    session.pop("passAW", None)  
+
+    
+    return render_template('logout.html')  
+
+    
 @app.route('/mahasiswa')
 def mhs():
-    if "idM" in session:
-        return render_template('mahasiswa.html')  
-    else:
-        flash("you are not login")
-        return redirect(url_for("login"))
+    if "idM" in session is not None:
+        return render_template('mahasiswa.html') 
+    elif "idM" in session is None:
+        return redirect(url_for("login")) 
+    
 
 @app.route('/dosen-asisten')
 def dosAs():
-    if "idAS" in session:
-        return render_template('dosAsis.html')  
-    else:
-        flash("you are not login")
+    if "idAS" in session is not None:
+        return render_template('dosAsis.html')
+    elif "idAS" in session is None:
         return redirect(url_for("login"))
+
     
 
 @app.route('/view-profil-siswa')
 def view():
     return render_template("view.html",values=mahasiswa.query.all())
+
+
+
